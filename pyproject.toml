@@ -8,6 +8,11 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.111.0"
+vadersentiment = "^3.3.2"
+transformers = "^4.40.2"
+torch = "^2.3.0"
+pydantic = "^2.7.1"
+pydantic-settings = "^2.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
