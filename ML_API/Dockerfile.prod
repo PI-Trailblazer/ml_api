@@ -32,4 +32,4 @@ ENV PYTHONPATH="${PYTHONPATH}:/opt/dependencies"
 COPY ./app ./app
 
 EXPOSE 8000
-CMD gunicorn app.main:app --bind 0.0.0.0:8000 -k uvicorn.workers.UvicornWorker --forwarded-allow-ips="*"
+CMD gunicorn app.main:app --bind 0.0.0.0:8000 -k uvicorn.workers.UvicornWorker --forwarded-allow-ips="*" --timeout 360

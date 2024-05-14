@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/pi-trailblazer/ML_API:${TAG:-latest}
+    image: ghcr.io/pi-trailblazer/ml_api:${TAG:-latest}
     build:
       context: ML_API
       dockerfile: Dockerfile.prod
