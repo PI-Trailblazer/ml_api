@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: ML_API
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./ML_API:/app
+    restart: unless-stopped
+
+  proxy:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./proxy/locations.conf:/etc/nginx/conf.d/locations.conf:ro
+      - ./proxy/default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    depends_on:
+      - api

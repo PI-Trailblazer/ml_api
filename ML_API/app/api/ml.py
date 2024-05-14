@@ -1,6 +1,16 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 from transformers import pipeline
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from pydantic import BaseModel
+
+
+class Description(BaseModel):
+    description: str
+
+
+class Review(BaseModel):
+    review: str
+
 
 router = APIRouter()
 
@@ -12,7 +22,7 @@ sentiment_analyzer = SentimentIntensityAnalyzer()
 
 
 @router.post("/classify_offer")
-async def classify_offer(*, description: str):
+async def classify_offer(*, description_in: Description):
     candidate_labels = [
         "Accommodation",
         "Sports",
@@ -25,7 +35,7 @@ async def classify_offer(*, description: str):
         "Café",
         "Games",
     ]
-
+    description = description_in.description
     classification = description_classifier(description, candidate_labels)
 
     tags_scores = zip(classification["labels"], classification["scores"])
@@ -36,8 +46,9 @@ async def classify_offer(*, description: str):
 
 
 @router.post("/sentiment_analysis")
-async def sentiment_analysis(*, review: str):
+async def sentiment_analysis(*, review_in: Review):
+    review = review_in.review
     sentiment = sentiment_analyzer.polarity_scores(review)
     score = (sentiment["compound"] + 1) / 2
 
-    return score
+    return {"score": score}
